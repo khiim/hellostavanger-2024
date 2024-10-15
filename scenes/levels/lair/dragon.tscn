@@ -1,0 +1,517 @@
+[gd_scene load_steps=28 format=3 uid="uid://c8jp8aoxyxpt8"]
+
+[ext_resource type="Texture2D" uid="uid://ds2qaxps15ccb" path="res://assets/lair/dragon_shadow.png" id="1_ifdhe"]
+[ext_resource type="Script" path="res://scripts/levels/lair/dragon.gd" id="1_v6r5x"]
+[ext_resource type="Texture2D" uid="uid://dyihtfchd48tm" path="res://assets/lair/dragon.png" id="2_wgemg"]
+[ext_resource type="Texture2D" uid="uid://d3kfua4amklue" path="res://assets/lair/dragon_head.png" id="3_go0ar"]
+[ext_resource type="Texture2D" uid="uid://h1f38s1ocrxd" path="res://assets/lair/fire_particle.png" id="4_we2sp"]
+[ext_resource type="Texture2D" uid="uid://v33thxt66hsg" path="res://assets/dragon/breath_weapon.png" id="5_gwyhp"]
+[ext_resource type="PackedScene" uid="uid://hw3u684giawh" path="res://scenes/components/hurt_box_component.tscn" id="7_cvove"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8_n6yjd"]
+[ext_resource type="AudioStream" uid="uid://cpph5ymvrgpbv" path="res://assets/external/sound/pixabay/dragon-breathes-fire-1-191085.mp3" id="9_ecrt3"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hjt8r"]
+
+[sub_resource type="Curve" id="Curve_7ykcx"]
+_data = [Vector2(0, 0.74649), 0.0, 0.0, 0, 0, Vector2(0.973585, 0.320593), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3bvjs"]
+curve = SubResource("Curve_7ykcx")
+
+[sub_resource type="Gradient" id="Gradient_uw6qd"]
+offsets = PackedFloat32Array(0, 0.459916, 0.843882, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 1, 0.643137, 0, 1, 1, 1, 0, 0.266667)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_geq3x"]
+gradient = SubResource("Gradient_uw6qd")
+
+[sub_resource type="Curve" id="Curve_che1a"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_me7be"]
+curve = SubResource("Curve_che1a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4k7n2"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 4
+emission_point_count = 1
+direction = Vector3(-1.5, 1, 0)
+spread = 15.0
+initial_velocity_min = 93.02
+initial_velocity_max = 162.79
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -66.45
+linear_accel_max = -66.45
+color_ramp = SubResource("GradientTexture1D_geq3x")
+alpha_curve = SubResource("CurveTexture_3bvjs")
+turbulence_noise_scale = 0.579
+turbulence_influence_over_life = SubResource("CurveTexture_me7be")
+
+[sub_resource type="Animation" id="Animation_3ctdm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DragonBody/DragonHead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BreathWeaponSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DragonBody:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DragonBody:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("DragonBody:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("DragonBody:scale:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "bezier"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("DragonBody:scale:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("DragonBody:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_grc71"]
+resource_name = "burning"
+length = 0.5
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DragonBody/DragonHead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BreathWeaponSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_my2gc"]
+resource_name = "death"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DragonBody/DragonHead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DragonBody:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 48, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DragonBody:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -43, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DragonBody:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 3.53429, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("DragonBody:scale:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("DragonBody:scale:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("DragonBody:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xwlgr"]
+resource_name = "end"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DragonBody/DragonHead:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BreathWeaponSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_meapa"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DragonBody/DragonHead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BreathWeaponSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_hx58u"]
+resource_name = "start"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DragonBody/DragonHead:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BreathWeaponSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BreathWeaponSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j8e7j"]
+_data = {
+"RESET": SubResource("Animation_3ctdm"),
+"burning": SubResource("Animation_grc71"),
+"death": SubResource("Animation_my2gc"),
+"end": SubResource("Animation_xwlgr"),
+"idle": SubResource("Animation_meapa"),
+"start": SubResource("Animation_hx58u")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_alv7i"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c1vwc"]
+radius = 6.0
+height = 28.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuh4p"]
+height = 50.0
+
+[node name="Dragon" type="Node2D"]
+script = ExtResource("1_v6r5x")
+
+[node name="DragonShadow" type="Sprite2D" parent="."]
+position = Vector2(0, 42)
+texture = ExtResource("1_ifdhe")
+
+[node name="DragonBody" type="Sprite2D" parent="."]
+texture = ExtResource("2_wgemg")
+
+[node name="DragonHead" type="Sprite2D" parent="DragonBody"]
+position = Vector2(-41, -24)
+texture = ExtResource("3_go0ar")
+hframes = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="DragonBody"]
+material = SubResource("CanvasItemMaterial_hjt8r")
+position = Vector2(-48, -17)
+emitting = false
+amount = 400
+process_material = SubResource("ParticleProcessMaterial_4k7n2")
+texture = ExtResource("4_we2sp")
+lifetime = 1.5
+
+[node name="BreathWeaponSprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-110, 9)
+texture = ExtResource("5_gwyhp")
+hframes = 4
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j8e7j")
+}
+autoplay = "idle"
+
+[node name="BurnArea2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BurnArea2D"]
+position = Vector2(-123, 39)
+shape = SubResource("RectangleShape2D_alv7i")
+
+[node name="BurnTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="HurtBoxComponent" parent="." instance=ExtResource("7_cvove")]
+collision_layer = 64
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+position = Vector2(-40, -19)
+rotation = 0.93026
+shape = SubResource("CapsuleShape2D_c1vwc")
+
+[node name="HurtBoxComponent2" parent="." instance=ExtResource("7_cvove")]
+collision_layer = 64
+
+[node name="CollisionShape2D" parent="HurtBoxComponent2" index="0"]
+position = Vector2(-18, 2)
+rotation = 0.0767945
+shape = SubResource("CapsuleShape2D_tuh4p")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8_n6yjd")
+max_health = 256
+health = 256
+
+[node name="BurnAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_ecrt3")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="BurnArea2D" to="." method="_on_burn_area_2d_body_entered"]
+[connection signal="timeout" from="BurnTimer" to="." method="_on_burn_timer_timeout"]
+[connection signal="hurt" from="HurtBoxComponent" to="." method="_on_hurt_box_component_hurt"]
+[connection signal="hurt" from="HurtBoxComponent2" to="." method="_on_hurt_box_component_hurt"]
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
+
+[editable path="HurtBoxComponent"]
+[editable path="HurtBoxComponent2"]

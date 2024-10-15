@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=4 uid="uid://d2jodywk2vuve"]
+
+[ext_resource type="Texture2D" uid="uid://bocxbragh372d" path="res://assets/lair/lair_background.png" id="1_3s64r"]
+[ext_resource type="Script" path="res://scripts/levels/lair/lair.gd" id="1_l66so"]
+[ext_resource type="Texture2D" uid="uid://b84hjc5rmjecl" path="res://assets/lair/lair_foreground.png" id="2_wuck8"]
+[ext_resource type="PackedScene" uid="uid://h2scas508wx8" path="res://scenes/player/player.tscn" id="2_xnbnj"]
+[ext_resource type="TileSet" uid="uid://bgats76tug61b" path="res://resources/terrains/cave.tres" id="3_q2q1g"]
+[ext_resource type="PackedScene" uid="uid://c8jp8aoxyxpt8" path="res://scenes/levels/lair/dragon.tscn" id="5_t00vl"]
+[ext_resource type="Texture2D" uid="uid://r2oegq6hmxkm" path="res://assets/lair/victory.png" id="7_2n4lm"]
+[ext_resource type="Texture2D" uid="uid://bgrnjk23jaym5" path="res://assets/slides/qr_to_github.png" id="8_uhm4x"]
+
+[sub_resource type="Theme" id="Theme_ar22q"]
+default_font_size = 10
+
+[node name="Lair" type="Node2D"]
+script = ExtResource("1_l66so")
+player = ExtResource("2_xnbnj")
+
+[node name="LairBackground" type="Sprite2D" parent="."]
+position = Vector2(160, 88)
+texture = ExtResource("1_3s64r")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(246, 151)
+collision_layer = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-103, 15, -70, 3, -42, -19, -22, -37, -10, -42, 16, -42, 43, -35, 56, -30, 71, -15, 76, -16, 76, 12)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAkAAAABAAAAAAABAAkAAAABAAAAAAACAAkAAAABAAAAAAADAAkAAAABAAAAAAAEAAkAAAABAAAAAAAFAAkAAAABAAAAAAAGAAkAAAABAAAAAAAHAAkAAAABAAAAAAAIAAkAAAACAAAAAAAIAAoAAAACAAEAAAAIAAsAAAACAAIAAAAHAAsAAAABAAIAAAAHAAoAAAABAAEAAAAGAAoAAAABAAEAAAAGAAsAAAABAAIAAAAFAAoAAAABAAEAAAAFAAsAAAABAAIAAAAEAAsAAAABAAIAAAAEAAoAAAABAAEAAAADAAoAAAABAAEAAAADAAsAAAABAAIAAAACAAoAAAABAAEAAAACAAsAAAABAAIAAAABAAsAAAABAAIAAAABAAoAAAABAAEAAAAAAAsAAAABAAIAAAAAAAoAAAABAAEAAAAEAAYAAAAAAAMAAAAFAAYAAAACAAMAAAD//wkAAAABAAAAAAD+/wkAAAABAAAAAAD9/wkAAAABAAAAAAD8/wkAAAAEAAIAAAD//woAAAABAAEAAAD+/woAAAABAAEAAAD//wsAAAABAAIAAAD+/wsAAAABAAIAAAD9/wsAAAABAAIAAAD9/woAAAABAAEAAAD8/woAAAAAAAEAAAD8/wsAAAAAAAIAAAAUAAYAAAADAAEAAAAUAAcAAAADAAEAAAAUAAgAAAADAAEAAAAUAAkAAAADAAEAAAAUAAoAAAADAAEAAAAUAAsAAAADAAIAAAAUAAUAAAADAAEAAAAUAAQAAAADAAEAAAAUAAMAAAADAAEAAAAUAAIAAAADAAEAAAAUAAEAAAADAAEAAAAUAAAAAAADAAEAAAAUAP//AAAHAAAAAAATAP//AAABAAMAAAASAP//AAABAAMAAAARAP//AAABAAMAAAAQAP//AAABAAMAAAAPAP//AAABAAMAAAAOAP//AAABAAMAAAANAP//AAABAAMAAAAMAP//AAABAAMAAAALAP//AAABAAMAAAAKAP//AAABAAMAAAAJAP//AAABAAMAAAAIAP//AAABAAMAAAAHAP//AAABAAMAAAAGAP//AAABAAMAAAAFAP//AAABAAMAAAAEAP//AAABAAMAAAADAP//AAABAAMAAAACAP//AAABAAMAAAABAP//AAABAAMAAAAAAP//AAABAAMAAAD/////AAAEAAAAAAD//wAAAAADAAEAAAD//wEAAAADAAEAAAD//wIAAAADAAEAAAD//wMAAAADAAEAAAD//wQAAAADAAEAAAD//wUAAAAHAAMAAAD8/wgAAAADAAEAAAD8/wcAAAADAAEAAAD8/wYAAAADAAEAAAD8/wUAAAAEAAAAAAD9/wUAAAABAAMAAAD+/wUAAAABAAMAAAA=")
+tile_set = ExtResource("3_q2q1g")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-21, 144)
+
+[node name="PlayerLayer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Dragon" parent="." instance=ExtResource("5_t00vl")]
+position = Vector2(256, 96)
+
+[node name="EffectsLayer" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="LairForeground" type="Sprite2D" parent="."]
+position = Vector2(160, 90)
+texture = ExtResource("2_wuck8")
+
+[node name="VictoryLayer" type="Node2D" parent="."]
+visible = false
+
+[node name="Victory" type="Sprite2D" parent="VictoryLayer"]
+position = Vector2(160, 44)
+texture = ExtResource("7_2n4lm")
+
+[node name="QrToGithub" type="Sprite2D" parent="VictoryLayer"]
+position = Vector2(37, 144)
+scale = Vector2(0.186667, 0.186667)
+texture = ExtResource("8_uhm4x")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VictoryLayer"]
+offset_left = 8.0
+offset_top = 99.0
+offset_right = 132.0
+offset_bottom = 116.0
+theme = SubResource("Theme_ar22q")
+text = "https://github.com/khiim"
+
+[connection signal="died" from="Dragon" to="." method="_on_dragon_died"]

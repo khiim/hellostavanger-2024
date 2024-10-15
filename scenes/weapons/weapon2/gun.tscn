@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3 uid="uid://bv21vibuv207q"]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon2/gun.gd" id="1_c7umx"]
+[ext_resource type="Texture2D" uid="uid://cbd2fetxbn66e" path="res://assets/weapons/minigun.png" id="1_kgbr8"]
+[ext_resource type="Texture2D" uid="uid://did8g6r7pq4qs" path="res://assets/effects/bullet_casing.png" id="3_n2tb5"]
+[ext_resource type="AudioStream" uid="uid://dqe3i28bfc0dn" path="res://assets/external/sound/sfx_collection/sfx_wpn_machinegun_loop7.wav" id="4_dmc2a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpc0c"]
+atlas = ExtResource("1_kgbr8")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq68c"]
+atlas = ExtResource("1_kgbr8")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnd5m"]
+atlas = ExtResource("1_kgbr8")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0easo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpc0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pq68c")
+}],
+"loop": true,
+"name": &"fire",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnd5m")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_us1f8"]
+colors = PackedColorArray(1, 0.843137, 0.415686, 0.203922, 1, 0.843137, 0.415686, 1)
+
+[sub_resource type="Curve" id="Curve_8mvkb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.603774, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.219189), -6.52607, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ow3y"]
+curve = SubResource("Curve_8mvkb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ue2cr"]
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+direction = Vector3(-0.25, -1, 0)
+spread = 15.0
+initial_velocity_min = 56.47
+initial_velocity_max = 83.06
+angular_velocity_min = -19.14
+angular_velocity_max = 19.14
+gravity = Vector3(0, 200, 0)
+alpha_curve = SubResource("CurveTexture_5ow3y")
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_c7umx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-4, -19)
+sprite_frames = SubResource("SpriteFrames_0easo")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.857078
+offset = Vector2(20, 3)
+
+[node name="RayCast2D" type="RayCast2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(30, 6)
+target_position = Vector2(320, 0)
+collision_mask = 66
+collide_with_areas = true
+
+[node name="TracerLine" type="Line2D" parent="AnimatedSprite2D/RayCast2D"]
+unique_name_in_owner = true
+visible = false
+points = PackedVector2Array(0, 0, 100, 0)
+width = 1.0
+gradient = SubResource("Gradient_us1f8")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(7, 5)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_ue2cr")
+texture = ExtResource("3_n2tb5")
+
+[node name="FireAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dmc2a")

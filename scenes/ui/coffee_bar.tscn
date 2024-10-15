@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://lvm10p4r2jd7"]
+
+[ext_resource type="Texture2D" uid="uid://dxdrxee7kdov" path="res://assets/items/coffee_small.png" id="1_5sq2n"]
+[ext_resource type="Script" path="res://scripts/ui/coffee_bar.gd" id="2_gsqas"]
+
+[node name="CoffeeBar" type="TextureRect"]
+texture_repeat = 2
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_5sq2n")
+stretch_mode = 1
+script = ExtResource("2_gsqas")

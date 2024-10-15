@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://hw3u684giawh"]
+
+[ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="1_xku7m"]
+
+[node name="HurtBoxComponent" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_xku7m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+debug_color = Color(0.149317, 0.593272, 0, 0.419608)
+
+[node name="InvulnerableTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="InvulnerableTimer" to="." method="_on_invulnerable_timer_timeout"]

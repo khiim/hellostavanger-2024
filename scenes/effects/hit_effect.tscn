@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=3 uid="uid://cddoptx7sqf76"]
+
+[ext_resource type="Texture2D" uid="uid://d4l5huie5p7oe" path="res://assets/effects/hit_enemy.png" id="1_rlhto"]
+[ext_resource type="Script" path="res://scripts/effects/hit_effect.gd" id="2_duen6"]
+[ext_resource type="Texture2D" uid="uid://d1u6jcqcfpquf" path="res://assets/effects/hit_wall.png" id="2_tym6k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6ymf"]
+atlas = ExtResource("1_rlhto")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wmtw"]
+atlas = ExtResource("1_rlhto")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g388"]
+atlas = ExtResource("1_rlhto")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6nd7"]
+atlas = ExtResource("1_rlhto")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxl8u"]
+atlas = ExtResource("2_tym6k")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob4hv"]
+atlas = ExtResource("2_tym6k")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbal7"]
+atlas = ExtResource("2_tym6k")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vxq78"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6ymf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wmtw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3g388")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6nd7")
+}],
+"loop": false,
+"name": &"hit_enemy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxl8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob4hv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbal7")
+}],
+"loop": false,
+"name": &"hit_wall",
+"speed": 5.0
+}]
+
+[node name="HitEffect" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_vxq78")
+animation = &"hit_enemy"
+script = ExtResource("2_duen6")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

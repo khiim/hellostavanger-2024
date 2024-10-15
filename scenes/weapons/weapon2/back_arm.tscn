@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c23bsd3t58gfg"]
+
+[ext_resource type="Texture2D" uid="uid://dcijir3d7dkxc" path="res://assets/weapons/minigun_arm.png" id="1_sun82"]
+
+[node name="BackArm" type="Node2D"]
+show_behind_parent = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4, -19)
+texture = ExtResource("1_sun82")
+offset = Vector2(20, 3)

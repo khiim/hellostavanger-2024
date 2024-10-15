@@ -1,0 +1,53 @@
+[gd_scene load_steps=11 format=3 uid="uid://bko516adansg6"]
+
+[ext_resource type="Texture2D" uid="uid://cnilcpyymi11s" path="res://assets/effects/explosion.png" id="1_4gr56"]
+[ext_resource type="Script" path="res://scripts/effects/explosion.gd" id="2_dhyo6"]
+[ext_resource type="AudioStream" uid="uid://uf8uuk5dnqx3" path="res://assets/external/sound/sfx_collection/sfx_exp_short_hard6.wav" id="3_co2t2"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uc3an"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_dy6st"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.498113, 1), 0.0, 0.0, 0, 0, Vector2(0.766038, 0), -7.27614, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ilq8k"]
+width = 100
+curve = SubResource("Curve_dy6st")
+
+[sub_resource type="Gradient" id="Gradient_5mwrs"]
+offsets = PackedFloat32Array(0, 0.320675, 1)
+colors = PackedColorArray(1, 0.152941, 0.109804, 1, 1, 0.635294, 0.0745098, 1, 0.262745, 0, 0, 0.239216)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n54et"]
+gradient = SubResource("Gradient_5mwrs")
+
+[sub_resource type="CurveTexture" id="CurveTexture_manjx"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bfysm"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_n54et")
+alpha_curve = SubResource("CurveTexture_ilq8k")
+emission_curve = SubResource("CurveTexture_manjx")
+anim_speed_max = 4.0
+
+[node name="Explosion" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_uc3an")
+emitting = false
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_bfysm")
+texture = ExtResource("1_4gr56")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.85
+script = ExtResource("2_dhyo6")
+
+[node name="ExplodeAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_co2t2")
+volume_db = -2.811

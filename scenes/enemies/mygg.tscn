@@ -1,0 +1,85 @@
+[gd_scene load_steps=12 format=3 uid="uid://ccxoeeah32ir0"]
+
+[ext_resource type="Texture2D" uid="uid://bq7edpa4iinae" path="res://assets/bugs/mygg.png" id="1_vlsvh"]
+[ext_resource type="Script" path="res://scripts/enemies/mygg.gd" id="1_xlo7k"]
+[ext_resource type="PackedScene" uid="uid://hw3u684giawh" path="res://scenes/components/hurt_box_component.tscn" id="3_u1nkn"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="4_0e5ol"]
+
+[sub_resource type="Curve2D" id="Curve2D_cbe2o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4j2jk"]
+atlas = ExtResource("1_vlsvh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo12p"]
+atlas = ExtResource("1_vlsvh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yocr0"]
+atlas = ExtResource("1_vlsvh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d1rhj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4j2jk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uo12p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yocr0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ycfh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2bamq"]
+radius = 100.0
+
+[node name="Mygg" type="Path2D"]
+curve = SubResource("Curve2D_cbe2o")
+script = ExtResource("1_xlo7k")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+loop = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D"]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_d1rhj")
+autoplay = "default"
+
+[node name="HurtBoxComponent" parent="PathFollow2D" instance=ExtResource("3_u1nkn")]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="PathFollow2D/HurtBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_1ycfh")
+
+[node name="HealthComponent" type="Node" parent="PathFollow2D"]
+unique_name_in_owner = true
+script = ExtResource("4_0e5ol")
+max_health = 3
+health = 3
+
+[node name="DetectionArea2D" type="Area2D" parent="PathFollow2D"]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/DetectionArea2D"]
+shape = SubResource("CircleShape2D_2bamq")
+
+[node name="Timer" type="Timer" parent="PathFollow2D"]
+wait_time = 0.5
+autostart = true
+
+[connection signal="hurt" from="PathFollow2D/HurtBoxComponent" to="." method="_on_hurt_box_component_hurt"]
+[connection signal="died" from="PathFollow2D/HealthComponent" to="." method="_on_health_component_died"]
+[connection signal="timeout" from="PathFollow2D/Timer" to="." method="_on_timer_timeout"]
+
+[editable path="PathFollow2D/HurtBoxComponent"]

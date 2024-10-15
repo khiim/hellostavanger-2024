@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://36l4fpbdessu"]
+
+[ext_resource type="Texture2D" uid="uid://y0yam2up7c6c" path="res://assets/bugs/mygg_laser.png" id="1_2i0oa"]
+[ext_resource type="PackedScene" uid="uid://f10j447ugoru" path="res://scenes/components/hit_box_component.tscn" id="2_3kxot"]
+[ext_resource type="Script" path="res://scripts/enemies/mygg_laser.gd" id="2_we8ld"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_auhdu"]
+size = Vector2(10, 4)
+
+[node name="MyggLaser" type="Sprite2D"]
+texture = ExtResource("1_2i0oa")
+script = ExtResource("2_we8ld")
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("2_3kxot")]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+shape = SubResource("RectangleShape2D_auhdu")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="hit" from="HitBoxComponent" to="." method="_on_hit_box_component_hit"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="HitBoxComponent"]

@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://bf18bvpgarxda"]
+
+[ext_resource type="Script" path="res://scripts/weapons/weapon1/rubber_duck.gd" id="1_nf5jt"]
+[ext_resource type="Texture2D" uid="uid://crgw11thtywm1" path="res://assets/weapons/duck.png" id="2_3ip4k"]
+[ext_resource type="PackedScene" uid="uid://f10j447ugoru" path="res://scenes/components/hit_box_component.tscn" id="3_ppn7a"]
+[ext_resource type="AudioStream" uid="uid://chjnogx77lg2q" path="res://assets/external/sound/pixabay/075176_duck-quack-40345.mp3" id="5_h3ny0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xotrq"]
+rough = true
+bounce = 0.85
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_np1hh"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1km82"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8o3vg"]
+radius = 24.0
+
+[node name="RubberDuck" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 7
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_xotrq")
+script = ExtResource("1_nf5jt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_3ip4k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_np1hh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("3_ppn7a")]
+collision_layer = 8
+collision_mask = 64
+damage = 0
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_1km82")
+
+[node name="ExplosionArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea2D"]
+shape = SubResource("CircleShape2D_8o3vg")
+
+[node name="QuackAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_h3ny0")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="hit" from="HitBoxComponent" to="." method="_on_hit_box_component_hit"]
+
+[editable path="HitBoxComponent"]

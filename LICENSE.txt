@@ -1,0 +1,21 @@
+Copyright (c) 2024 Kristian Hiim
+
+Source code under /scenes, /scripts and /resources are licensed
+under the MIT License. See LICENSE.MIT.txt for details.
+
+Assets under /assets are created by Kristian Hiim, and licensed
+under CC BY-NC 4.0. See https://creativecommons.org/licenses/by-nc/4.0/
+
+
+There is an exception to the above copyright and license details for
+the assets under /assets/external. These are free assets downloaded
+from various sources:
+
+Assets under /assets/external/godot contains an official Godot logo and
+icon, from the Godot press kit: https://godotengine.org/press/
+
+Assets under /assets/external/sound/sfx_collection contains sound effects
+from a sound effects collection by Juhani Junkala. See INFO.txt for details.
+
+Asssets under /assets/external/sound/pixabay are sound effects downloaded
+from Pixabay. See the readme.txt file in the pixabay folder for details.

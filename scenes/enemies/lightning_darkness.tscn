@@ -1,0 +1,107 @@
+[gd_scene load_steps=12 format=3 uid="uid://d1wdew64brdad"]
+
+[ext_resource type="Script" path="res://scripts/enemies/lightning_darkness.gd" id="1_rb0nu"]
+[ext_resource type="Texture2D" uid="uid://c51c2t4nqdijl" path="res://assets/bugs/lightningdarkness.png" id="2_ho65s"]
+[ext_resource type="PackedScene" uid="uid://f10j447ugoru" path="res://scenes/components/hit_box_component.tscn" id="3_gmfna"]
+[ext_resource type="PackedScene" uid="uid://hw3u684giawh" path="res://scenes/components/hurt_box_component.tscn" id="4_ldoei"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg1ew"]
+atlas = ExtResource("2_ho65s")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsuqu"]
+atlas = ExtResource("2_ho65s")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gymlp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg1ew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsuqu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a47b1"]
+radius = 8.0
+height = 22.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5giu3"]
+size = Vector2(8, 3)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1t8gx"]
+radius = 6.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yoeby"]
+radius = 8.0
+height = 22.0
+
+[node name="LightningDarkness" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_rb0nu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -14)
+sprite_frames = SubResource("SpriteFrames_gymlp")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -11)
+shape = SubResource("CapsuleShape2D_a47b1")
+
+[node name="RightFloorDetect" type="RayCast2D" parent="."]
+position = Vector2(4, -2)
+target_position = Vector2(0, 10)
+collision_mask = 2
+
+[node name="LeftFloorDetect" type="RayCast2D" parent="."]
+position = Vector2(-4, -2)
+target_position = Vector2(0, 10)
+collision_mask = 2
+
+[node name="RightWallDetect" type="RayCast2D" parent="."]
+position = Vector2(5, -3)
+target_position = Vector2(5, 0)
+collision_mask = 2
+
+[node name="LeftWallDetect" type="RayCast2D" parent="."]
+position = Vector2(-5, -3)
+target_position = Vector2(-5, 0)
+collision_mask = 2
+
+[node name="LightningHitBoxComponent" parent="." instance=ExtResource("3_gmfna")]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="LightningHitBoxComponent" index="0"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_5giu3")
+
+[node name="AxeHitBoxComponent" parent="." instance=ExtResource("3_gmfna")]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="AxeHitBoxComponent" index="0"]
+position = Vector2(13, -17)
+shape = SubResource("CapsuleShape2D_1t8gx")
+
+[node name="HurtBoxComponent" parent="." instance=ExtResource("4_ldoei")]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+position = Vector2(0, -11)
+shape = SubResource("CapsuleShape2D_yoeby")
+
+[connection signal="hurt" from="HurtBoxComponent" to="." method="_on_hurt_box_component_hurt"]
+
+[editable path="LightningHitBoxComponent"]
+[editable path="AxeHitBoxComponent"]
+[editable path="HurtBoxComponent"]

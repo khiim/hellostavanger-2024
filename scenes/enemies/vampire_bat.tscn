@@ -1,0 +1,111 @@
+[gd_scene load_steps=15 format=3 uid="uid://xwtbqrbdqu5q"]
+
+[ext_resource type="Texture2D" uid="uid://doho4birqlrdu" path="res://assets/bugs/vampire_bat.png" id="1_m8m5c"]
+[ext_resource type="Script" path="res://scripts/enemies/vampire_bat.gd" id="1_wk12h"]
+[ext_resource type="PackedScene" uid="uid://f10j447ugoru" path="res://scenes/components/hit_box_component.tscn" id="3_okpv3"]
+[ext_resource type="PackedScene" uid="uid://hw3u684giawh" path="res://scenes/components/hurt_box_component.tscn" id="4_2vdjg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_he0jv"]
+atlas = ExtResource("1_m8m5c")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yroai"]
+atlas = ExtResource("1_m8m5c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msxg2"]
+atlas = ExtResource("1_m8m5c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7h6f"]
+atlas = ExtResource("1_m8m5c")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_725qa"]
+atlas = ExtResource("1_m8m5c")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4hbv3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_he0jv")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yroai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msxg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7h6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_725qa")
+}],
+"loop": true,
+"name": &"patrol",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kwn8x"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3vofi"]
+radius = 80.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a22ry"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lfbgo"]
+radius = 4.0
+
+[node name="VampireBat" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_wk12h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4hbv3")
+animation = &"attack"
+autoplay = "patrol"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kwn8x")
+
+[node name="DetectionArea2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea2D"]
+shape = SubResource("CircleShape2D_3vofi")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("3_okpv3")]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_a22ry")
+
+[node name="HurtBoxComponent" parent="." instance=ExtResource("4_2vdjg")]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+shape = SubResource("CircleShape2D_lfbgo")
+
+[connection signal="body_entered" from="DetectionArea2D" to="." method="_on_detection_area_2d_body_entered"]
+[connection signal="body_exited" from="DetectionArea2D" to="." method="_on_detection_area_2d_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="hit" from="HitBoxComponent" to="." method="_on_hit_box_component_hit"]
+[connection signal="hurt" from="HurtBoxComponent" to="." method="_on_hurt_box_component_hurt"]
+
+[editable path="HitBoxComponent"]
+[editable path="HurtBoxComponent"]

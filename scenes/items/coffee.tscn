@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bd1bbb3lnfs7i"]
+
+[ext_resource type="Texture2D" uid="uid://campea0ms82l" path="res://assets/items/coffee.png" id="1_1pdfb"]
+[ext_resource type="Script" path="res://scripts/items/coffee.gd" id="2_kn62f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mdhh"]
+atlas = ExtResource("1_1pdfb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3layp"]
+atlas = ExtResource("1_1pdfb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o723w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mdhh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3layp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dg150"]
+radius = 9.0
+height = 24.0
+
+[node name="Coffee" type="AnimatedSprite2D"]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_o723w")
+autoplay = "default"
+frame_progress = 0.483352
+script = ExtResource("2_kn62f")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_dg150")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
