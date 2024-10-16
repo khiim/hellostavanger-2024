@@ -21,3 +21,15 @@ There are four main folders in this projects:
 There are two main scenes. The default scene is the first level, located at `/scenes/levels/volcano/volcano.tscn`. This is the scene that will start if you simply open and run the project. The slides used in the presentation are found at `/scenes/slides/slides.tscn`. They can be started opening the scene and use the "Run Current Scene" function.
 
 The player character scene can be found at `/scenes/player/player.tscn`. This is the scene that represents the main character that we control in the game.
+
+## Controls
+
+This game requires a keyboard and mouse to play. Move left and right with **A** and **D**. Jump with **SPACE**. Attack using the keyboard with **SHIFT** or **CTRL**. Fire the current ranged weapon with the **left mouse button**. Aim the gun using the **right mouse button**.
+
+Fullscreen can be toggled with **F11**. The ranged weapon can be switched using **2** when standing still. *(Moving while holding a gun is not implemented, as I didn't have time to create any more animations.)*
+
+## Credits
+
+The graphics and code in this project were created by me, Kristian Hiim, with the exception of the three types of bugs encountered on the way to the dragon, which were drawn by my children.
+
+The sound effects were downloaded from various free sources. See the license information for details.
